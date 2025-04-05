@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 
+    - primary meta tags
+  -->
+  <title>Bookish - Read More and Succeed</title>
+  <meta name="title" content="Bookish - Read More and Succeed">
+  <meta name="description"
+    content="Unlock the power of reading to achieve success. Explore chapters, gain insights, and learn from the best.">
+
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - preload image
+  -->
+  <link rel="preload" as="image" href="favicon.svg">
+
+</head>
+
+<body>
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+      <a href="#" class="logo">Bookish</a>
+
+      <nav class="navbar" data-navbar>
+        <ul class="navbar-list">
+          <li class="navbar-item">
+            <a href="#home" class="navbar-link">Home</a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="#benefits" class="navbar-link">Benefits</a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="#chapters" class="navbar-link">Chapters</a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="#pricing" class="navbar-link">Pricing</a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="#author" class="navbar-link">Author</a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="#contact" class="navbar-link">Contact</a>
+          </li>
+
+          <!-- Login Button (Initially Visible) -->
+          <li class="navbar-item login-btn" style="display: block;">
+            <a href="login.html" class="navbar-link">Login</a>
+          </li>
+
+          <!-- Profile Button (Initially Hidden) -->
+          <li class="navbar-item profile-btn" style="display: none;">
+            <div class="profile-container">
+              <button class="profile-button">
+                <span class="user-avatar">
+                  <img id="navProfileImage" src="default-avatar.png" alt="Profile" class="nav-profile-image">
+                </span>
+                <span class="user-name">User Name</span>
+              </button>
+              <div class="profile-dropdown-menu">
+                <a href="profile.html" class="dropdown-item">
+                  <ion-icon name="person-outline"></ion-icon>
+                  Profile
+                </a>
+                <a href="#" class="dropdown-item" onclick="logout()">
+                  <ion-icon name="log-out-outline"></ion-icon>
+                  Sign Out
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle-btn" aria-label="toggle menu" data-nav-toggler>
+        <ion-icon name="menu-outline" aria-hidden="true" class="open"></ion-icon>
+        <ion-icon name="close-outline" aria-hidden="true" class="close"></ion-icon>
+      </button>
+    </div>
+  </header>
+
+
+
+
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+
+      <section class="section hero" id="home" style="display: block;">
+        <div class="container">
+          <div class="hero-content">
+            <p class="section-subtitle">Invest in Yourself</p>
+            <h1 class="h1 hero-title">Read More, Grow More</h1>
+            <p class="section-text">Discover the power of reading and unlock new opportunities in your life.</p>
+          </div>
+          <div class="hero-banner has-before">
+            <div class="video-container">
+              <video id="heroVideo" class="hero-video" controls>
+                <source src="first.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <button class="play-btn" aria-label="play video">
+              <ion-icon name="play-outline" aria-hidden="true"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <style>
+        .video-container {
+          position: relative;
+          width: 100%;
+          max-width: 431px;
+          margin: 0 auto;
+          overflow: hidden;
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-video {
+          width: 100%;
+          height: auto;
+          opacity: 0.8;
+          transition: opacity 0.5s ease-in-out;
+        }
+
+        .hero-video.playing {
+          opacity: 1;
+        }
+
+        .play-btn {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: var(--old-rose);
+          color: white;
+          border: none;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          z-index: 2;
+        }
+
+        .play-btn:hover {
+          transform: translate(-50%, -50%) scale(1.1);
+          background: var(--old-rose-dark);
+        }
+
+        .play-btn.hide {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .play-btn ion-icon {
+          font-size: 24px;
+        }
+      </style>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const playButton = document.querySelector(".play-btn");
+          const video = document.getElementById("heroVideo");
+          let hasPlayed = false;
+          
+          // Show video immediately
+          video.style.display = "block";
+          
+          // Function to check if section is visible
+          function isSectionVisible(sectionId) {
+            const section = document.getElementById(sectionId);
+            return section && section.style.display !== 'none';
+          }
+          
+          // Function to handle video playback
+          function handleVideoPlayback() {
+            if (isSectionVisible('home')) {
+              // Play video when home section is visible
+              video.play().catch(function(error) {
+                console.log("Video play failed:", error);
+                // If autoplay fails, show the play button
+                playButton.classList.remove("hide");
+              });
+              playButton.classList.add("hide");
+            } else {
+              // Section is not visible, pause video
+              video.pause();
+              video.currentTime = 0;
+              playButton.classList.remove("hide");
+            }
+          }
+          
+          // Initial check
+          handleVideoPlayback();
+          
+          // Listen for section visibility changes
+          const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+              if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                handleVideoPlayback();
+              }
+            });
+          });
+          
+          // Observe the home section for style changes
+          const homeSection = document.getElementById('home');
+          if (homeSection) {
+            observer.observe(homeSection, { attributes: true });
+          }
+          
+          // Handle manual play button click
+          playButton.addEventListener("click", function () {
+            video.play().catch(function(error) {
+              console.log("Video play failed:", error);
+            });
+            playButton.classList.add("hide");
+          });
+          
+          // Handle video end
+          video.addEventListener("ended", function() {
+            video.classList.remove("playing");
+            playButton.classList.remove("hide");
+          });
+
+          // Add event listener for section navigation
+          window.addEventListener('hashchange', handleVideoPlayback);
+        });
+      </script>
+
+
+
+
+<!-- 
+        - #BENEFITS
+      -->
+
+      <section class="section benefits" id="benefits" style="display: none;">
+        <div class="container">
+      
+          <div class="grid-list">
+      
+            <li class="benefits-content">
+              <h2 class="h2 section-title">What you'll achieve by this book</h2>
+              <p class="section-text">Unlock your potential, stay motivated, and achieve success through the guidance of this book.</p>
+            </li>
+      
+            <li>
+              <div class="benefits-card has-before has-after">
+                <div class="card-icon">
+                  <img src="benefits-1.svg" width="40" height="40" loading="lazy" alt="Experience">
+                </div>
+                <h3 class="h3 card-title">Experience</h3>
+                <p class="card-text short-text">Gain real-world insights and practical knowledge...</p>
+                <p class="card-text full-text" style="display: none;">Gain real-world insights and practical knowledge that empower you to grow both personally and professionally. Learn from real-life examples, case studies, and success stories that demonstrate proven strategies for achievement. Understand how to apply theoretical concepts in practical situations and develop hands-on skills that will set you apart in your field.</p>
+                <a href="#" class="btn-link read-more">
+                  <span class="span">Read more</span>
+                  <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+              </div>
+            </li>
+      
+            <li>
+              <div class="benefits-card has-before has-after">
+                <div class="card-icon">
+                  <img src="benefits-2.svg" width="40" height="40" loading="lazy" alt="Motivation">
+                </div>
+                <h3 class="h3 card-title">Motivation</h3>
+                <p class="card-text short-text">Stay inspired with powerful techniques...</p>
+                <p class="card-text full-text" style="display: none;">Stay inspired with powerful techniques to keep pushing forward, no matter the challenges ahead. Discover proven methods to maintain high energy levels and enthusiasm throughout your journey. Learn how to overcome setbacks, stay focused on your goals, and develop a resilient mindset that helps you bounce back from any obstacle. Get practical tips for creating a positive environment that supports your growth.</p>
+                <a href="#" class="btn-link read-more">
+                  <span class="span">Read more</span>
+                  <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+              </div>
+            </li>
+      
+            <li>
+              <div class="benefits-card has-before has-after">
+                <div class="card-icon">
+                  <img src="benefits-3.svg" width="40" height="40" loading="lazy" alt="Goals">
+                </div>
+                <h3 class="h3 card-title">Goals</h3>
+                <p class="card-text short-text">Learn how to set and achieve meaningful goals...</p>
+                <p class="card-text full-text" style="display: none;">Learn how to set and achieve meaningful goals that align with your personal and professional aspirations. Master the art of goal setting with SMART techniques and learn to break down complex objectives into manageable steps. Understand how to track your progress effectively, celebrate small wins, and adjust your strategies when needed. Develop a clear roadmap for success that keeps you focused and motivated.</p>
+                <a href="#" class="btn-link read-more">
+                  <span class="span">Read more</span>
+                  <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+              </div>
+            </li>
+      
+            <li>
+              <div class="benefits-card has-before has-after">
+                <div class="card-icon">
+                  <img src="benefits-4.svg" width="40" height="40" loading="lazy" alt="Vision">
+                </div>
+                <h3 class="h3 card-title">Vision</h3>
+                <p class="card-text short-text">Gain clarity on your future path...</p>
+                <p class="card-text full-text" style="display: none;">Gain clarity on your future path and develop a strong vision to guide your decisions and actions effectively. Learn how to create a compelling vision statement that inspires and motivates you to take action. Understand the importance of long-term thinking and how to align your daily actions with your bigger picture goals. Discover techniques for maintaining focus on your vision while adapting to changing circumstances.</p>
+                <a href="#" class="btn-link read-more">
+                  <span class="span">Read more</span>
+                  <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+              </div>
+            </li>
+      
+            <li>
+              <div class="benefits-card has-before has-after">
+                <div class="card-icon">
+                  <img src="benefits-5.svg" width="40" height="40" loading="lazy" alt="Mission">
+                </div>
+                <h3 class="h3 card-title">Mission</h3>
+                <p class="card-text short-text">Define your purpose and direction...</p>
+                <p class="card-text full-text" style="display: none;">Define your purpose and direction with clear objectives that drive you toward long-term success. Learn how to identify your core values and create a mission statement that reflects your true purpose. Understand how to make decisions that align with your mission and maintain consistency in your actions. Discover ways to stay committed to your mission while navigating life's challenges and opportunities.</p>
+                <a href="#" class="btn-link read-more">
+                  <span class="span">Read more</span>
+                  <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+              </div>
+            </li>
+      
+            <li>
+              <div class="benefits-card has-before has-after">
+                <div class="card-icon">
+                  <img src="benefits-6.svg" width="40" height="40" loading="lazy" alt="Strategy">
+                </div>
+                <h3 class="h3 card-title">Strategy</h3>
+                <p class="card-text short-text">Develop effective strategies for success...</p>
+                <p class="card-text full-text" style="display: none;">Develop effective strategies for success by leveraging smart decision-making and efficient planning. Learn how to analyze situations, identify opportunities, and create actionable plans that lead to desired outcomes. Master the art of resource allocation and time management to maximize your productivity. Understand how to adapt your strategies based on feedback and changing circumstances while staying focused on your objectives.</p>
+                <a href="#" class="btn-link read-more">
+                  <span class="span">Read more</span>
+                  <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+                </a>
+              </div>
+            </li>
+          </div>
+        </div>
+      </section>
+      
+      <script>
+        document.querySelectorAll('.read-more').forEach(button => {
+          button.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            // Close all other open sections first
+            document.querySelectorAll('.benefits-card').forEach(card => {
+              if (card !== this.closest('.benefits-card')) {
+                const shortText = card.querySelector('.short-text');
+                const fullText = card.querySelector('.full-text');
+                const readMoreBtn = card.querySelector('.read-more');
+                
+                if (fullText.style.display === 'block') {
+                  fullText.style.display = 'none';
+                  shortText.style.display = 'block';
+                  readMoreBtn.querySelector('.span').textContent = 'Read more';
+                }
+              }
+            });
+
+            // Toggle current section
+            let card = this.closest('.benefits-card');
+            let shortText = card.querySelector('.short-text');
+            let fullText = card.querySelector('.full-text');
+            
+            if (fullText.style.display === 'none') {
+              fullText.style.display = 'block';
+              shortText.style.display = 'none';
+              this.querySelector('.span').textContent = 'Read less';
+            } else {
+              fullText.style.display = 'none';
+              shortText.style.display = 'block';
+              this.querySelector('.span').textContent = 'Read more';
+            }
+          });
+        });
+      </script>
+      
+
+
+
+
+
+      <!-- 
+        - #CHAPTERS
+      -->
+
+      <section class="section chapters" id="chapters">
+        <div class="container">
+          <p class="section-subtitle">Chapters</p>
+
+          <h2 class="h2 section-title has-underline">
+            Free Story Collection
+            <span class="span has-before"></span>
+          </h2>
+
+          <ul class="grid-list">
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="11.jpg" alt="The Magic Garden" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 01</p>
+                <h3 class="h3 card-title">The Magic Garden</h3>
+                <p class="card-text">
+                  A young girl discovers a magical garden that changes with her imagination. Join her on an adventure through enchanted landscapes.
+                </p>
+                <a href="chapter1.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="12.jpg" alt="The Time Traveler's Watch" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 02</p>
+                <h3 class="h3 card-title">The Time Traveler's Watch</h3>
+                <p class="card-text">
+                  A mysterious watch allows a boy to travel through different historical periods. Experience adventures in ancient Egypt, medieval castles, and future cities.
+                </p>
+                <a href="chapter2.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="13.jpg" alt="The Dragon's Secret" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 03</p>
+                <h3 class="h3 card-title">The Dragon's Secret</h3>
+                <p class="card-text">
+                  A young dragon must learn to control its powers while making friends in a world that fears dragons.
+                </p>
+                <a href="chapter3.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="14.jpg" alt="The Ocean's Whisper" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 04</p>
+                <h3 class="h3 card-title">The Ocean's Whisper</h3>
+                <p class="card-text">
+                  A marine biologist discovers she can communicate with sea creatures and uncovers a hidden underwater civilization.
+                </p>
+                <a href="chapter4.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="15.jpg" alt="The Robot's Heart" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 05</p>
+                <h3 class="h3 card-title">The Robot's Heart</h3>
+                <p class="card-text">
+                  An AI robot develops human-like emotions and must navigate the complex world of human relationships.
+                </p>
+                <a href="chapter5.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="16.jpg" alt="The Forest's Guardian" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 06</p>
+                <h3 class="h3 card-title">The Forest's Guardian</h3>
+                <p class="card-text">
+                  A young girl becomes the protector of an ancient forest and its magical inhabitants.
+                </p>
+                <a href="chapter6.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="17.jpg" alt="The Star Painter" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 07</p>
+                <h3 class="h3 card-title">The Star Painter</h3>
+                <p class="card-text">
+                  An artist discovers she can paint stars into existence and must save the night sky from darkness.
+                </p>
+                <a href="chapter7.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="18.jpg" alt="The Dream Collector" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 08</p>
+                <h3 class="h3 card-title">The Dream Collector</h3>
+                <p class="card-text">
+                  A boy who can collect and share dreams helps others overcome their fears and find happiness.
+                </p>
+                <a href="chapter8.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+
+            <li>
+              <div class="chapter-card">
+                <div class="chapter-cover">
+                  <img src="19.jpg" alt="The Weather Wizard" class="w-100">
+                </div>
+                <p class="card-subtitle">Chapter 09</p>
+                <h3 class="h3 card-title">The Weather Wizard</h3>
+                <p class="card-text">
+                  A young wizard learns to control weather patterns and must prevent a climate catastrophe.
+                </p>
+                <a href="chapter9.html" class="btn btn-primary">Read Chapter</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #PREVIEW
+      -->
+
+      <section class="section preview" aria-label="preview">
+        <div class="container">
+
+          <p class="section-subtitle">Chapter Preview</p>
+
+          <h2 class="h2 section-title has-underline">
+            Read some chapter free
+            <span class="span has-before"></span>
+          </h2>
+
+          <ul class="tab-list">
+
+            <li>
+              <div class="tab-card active" data-tab-card>
+                <h3 class="h3 tab-text">Chapter 1</h3>
+
+                <img src="preview-1.png" width="820" height="630" loading="lazy" alt="Chapter 1"
+                  class="w-100">
+              </div>
+            </li>
+
+            <li>
+              <div class="tab-card" data-tab-card>
+                <h3 class="h3 tab-text">Chapter 2</h3>
+
+                <img src="preview-2.png" width="820" height="630" loading="lazy" alt="Chapter 2"
+                  class="w-100">
+              </div>
+            </li>
+
+            <li>
+              <div class="tab-card" data-tab-card>
+                <h3 class="h3 tab-text">Chapter 3</h3>
+
+                <img src="preview-3.png" width="820" height="630" loading="lazy" alt="Chapter 3"
+                  class="w-100">
+              </div>
+            </li>
+
+            <li>
+              <div class="tab-card" data-tab-card>
+                <h3 class="h3 tab-text">Chapter 4</h3>
+
+                <img src="preview-4.png" width="820" height="630" loading="lazy" alt="Chapter 4"
+                  class="w-100">
+              </div>
+            </li>
+
+            <li>
+              <div class="tab-card" data-tab-card>
+                <h3 class="h3 tab-text">Chapter 5</h3>
+
+                <img src="preview-5.png" width="820" height="630" loading="lazy" alt="Chapter 5"
+                  class="w-100">
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #PRICING
+      -->
+
+      <section class="section pricing" id="pricing" style="display: none;"> 
+        <div class="container">
+          <p class="section-subtitle">Our Books</p>
+
+          <h2 class="h2 section-title has-underline">
+            Discover Our Collection
+            <span class="span has-before"></span>
+          </h2>
+
+          <div class="pricing-grid">
+            <!-- Book Cards will be dynamically generated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Book Details Modal -->
+      <div class="modal" id="bookModal" role="dialog" aria-labelledby="modalBookTitle" aria-hidden="true">
+        <div class="modal-content">
+          <span class="close-modal" aria-label="Close">&times;</span>
+          <div class="modal-body">
+            <div class="modal-loading"></div>
+            <div class="book-details">
+              <div class="book-details-image">
+                <img id="modalBookImage" src="" alt="Book Cover">
+              </div>
+              <div class="book-details-info">
+                <h2 id="modalBookTitle"></h2>
+                <p id="modalBookAuthor"></p>
+                <div class="book-meta">
+                  <div class="rating" id="modalBookRating"></div>
+                  <p class="price" id="modalBookPrice"></p>
+                </div>
+                <div class="book-description">
+                  <h3>Description</h3>
+                  <p id="modalBookDescription"></p>
+                </div>
+                <div class="book-features">
+                  <h3>Features</h3>
+                  <ul id="modalBookFeatures"></ul>
+                </div>
+                <button class="btn btn-primary" id="modalBuyNow">Buy Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Book data with numbered covers
+        const books = {
+          1: {
+            title: "Diary of a Wimpy Kid: Do-It-Yourself Book",
+            author: "Jeff Kinney",
+            price: "₹1,244.17",
+            rating: 4.8,
+            image: "1.jpeg",
+            description: "A unique interactive book that lets you write your own story! With space to draw, write, and create your own comics, this book is perfect for unleashing your creativity.",
+            features: [
+              "Interactive writing prompts",
+              "Drawing spaces",
+              "Comic strip templates",
+              "Fun activities",
+              "Personal diary pages"
+            ],
+            buyLink: "https://example.com/buy/wimpy-kid-diy"
+          },
+          2: {
+            title: "Diary of a Wimpy Kid: Rodrick has a Girlfriend",
+            author: "Jeff Kinney",
+            price: "₹1,161.17",
+            rating: 4.7,
+            image: "2.jpeg",
+            description: "Greg Heffley's older brother Rodrick knows a secret about Greg that he's threatening to share. Can Greg keep his secret safe while dealing with middle school drama?",
+            features: [
+              "Hilarious sibling rivalry",
+              "Middle school adventures",
+              "Family dynamics",
+              "Humorous illustrations",
+              "Relatable situations"
+            ],
+            buyLink: "https://example.com/buy/wimpy-kid-rodrick"
+          },
+          3: {
+            title: "Diary of a Wimpy Kid: Diper Overlode",
+            author: "Jeff Kinney",
+            price: "₹1,244.17",
+            rating: 4.6,
+            image: "3.jpeg",
+            description: "Greg and his brother Rodrick start a band called Löded Diper. But when Rodrick takes the band too seriously, Greg finds himself in over his head!",
+            features: [
+              "Rock band adventures",
+              "Sibling teamwork",
+              "School talent show",
+              "Band practice mishaps",
+              "Family support"
+            ],
+            buyLink: "https://example.com/buy/wimpy-kid-diper"
+          },
+          4: {
+            title: "Harry Potter and the Order of the Phoenix",
+            author: "J.K. Rowling",
+            price: "₹2,489.17",
+            rating: 4.9,
+            image: "4.jpeg",
+            description: "Harry Potter's fifth year at Hogwarts brings new challenges as he faces the Ministry of Magic's denial of Voldemort's return and forms Dumbledore's Army to prepare for the dark times ahead.",
+            features: [
+              "Dark wizard confrontation",
+              "Secret organization",
+              "School rebellion",
+              "Friendship bonds",
+              "Magical battles"
+            ],
+            buyLink: "https://example.com/buy/hp-order-phoenix"
+          },
+          5: {
+            title: "Harry Potter and the Prisoner of Azkaban",
+            author: "J.K. Rowling",
+            price: "₹2,074.17",
+            rating: 4.9,
+            image: "5.jpeg",
+            description: "Harry's third year at Hogwarts brings the escape of Sirius Black from Azkaban, the introduction of new Defense Against the Dark Arts teacher Remus Lupin, and the discovery of his father's past.",
+            features: [
+              "Time travel adventure",
+              "New magical creatures",
+              "Family secrets",
+              "School mysteries",
+              "Magical friendships"
+            ],
+            buyLink: "https://example.com/buy/hp-prisoner-azkaban"
+          },
+          6: {
+            title: "Harry Potter and the Sorcerer's Stone",
+            author: "J.K. Rowling",
+            price: "₹1,908.17",
+            rating: 4.9,
+            image: "6.jpeg",
+            description: "The first book in the Harry Potter series introduces readers to the magical world of Hogwarts, where Harry discovers he's a wizard and begins his journey to defeat the dark wizard who killed his parents.",
+            features: [
+              "Magical world introduction",
+              "School adventures",
+              "Friendship formation",
+              "Mystery solving",
+              "Magical creatures"
+            ],
+            buyLink: "https://example.com/buy/hp-sorcerers-stone"
+          },
+          7: {
+            title: "Diary of a Wimpy Kid: The Movie Diary",
+            author: "Jeff Kinney",
+            price: "₹1,410.17",
+            rating: 4.5,
+            image: "7.jpeg",
+            description: "Go behind the scenes of the Diary of a Wimpy Kid movie! This special book includes photos, interviews, and fun facts about how the book was brought to life on screen.",
+            features: [
+              "Behind-the-scenes photos",
+              "Movie production details",
+              "Actor interviews",
+              "Set design insights",
+              "Fun movie facts"
+            ],
+            buyLink: "https://example.com/buy/wimpy-kid-movie"
+          },
+          8: {
+            title: "Harry Potter and the Philosopher's Stone",
+            author: "J.K. Rowling",
+            price: "₹1,908.17",
+            rating: 4.9,
+            image: "8.jpeg",
+            description: "The British edition of the first Harry Potter book, introducing readers to the magical world of Hogwarts and Harry's journey to discover his wizarding heritage.",
+            features: [
+              "Original British edition",
+              "Magical world building",
+              "School adventures",
+              "Friendship formation",
+              "Mystery solving"
+            ],
+            buyLink: "https://example.com/buy/hp-philosophers-stone"
+          },
+          9: {
+            title: "Diary of a Wimpy Kid: Old School",
+            author: "Jeff Kinney",
+            price: "₹1,244.17",
+            rating: 4.7,
+            image: "9.jpeg",
+            description: "Greg Heffley's town decides to unplug from technology and go back to simpler times. But when Greg's family participates in the town's 'Old School' initiative, he finds himself in some very uncomfortable situations!",
+            features: [
+              "Technology-free adventure",
+              "Family bonding",
+              "School challenges",
+              "Community events",
+              "Humorous situations"
+            ],
+            buyLink: "https://example.com/buy/wimpy-kid-old-school"
+          }
+        };
+
+        // Function to create book card
+        function createBookCard(id, book) {
+          const card = document.createElement('div');
+          card.className = 'pricing-card';
+          
+          card.innerHTML = `
+            <div class="book-cover">
+              <img src="${book.image}" alt="${book.title}" class="w-100">
+              <div class="book-overlay">
+                <button class="btn btn-primary learn-more" data-book="${id}">Learn More</button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3 class="h3 card-title">${book.title}</h3>
+              <p class="author">By ${book.author}</p>
+              <div class="rating">
+                ${createRatingStars(book.rating)}
+                <span>(${book.rating})</span>
+              </div>
+              <p class="price">${book.price}</p>
+              <button class="btn btn-primary buy-now" data-book="${id}">Buy Now</button>
+            </div>
+          `;
+
+          return card;
+        }
+
+        // Function to create rating stars
+        function createRatingStars(rating) {
+          let stars = '';
+          for (let i = 1; i <= 5; i++) {
+            stars += `<ion-icon name="${i <= rating ? 'star' : 'star-outline'}"></ion-icon>`;
+          }
+          return stars;
+        }
+
+        // Function to update book grid
+        function updateBookGrid() {
+          const grid = document.querySelector('.pricing-grid');
+          grid.innerHTML = '';
+          
+          try {
+            // Process each book card
+            for (const [id, book] of Object.entries(books)) {
+              const card = createBookCard(id, book);
+              grid.appendChild(card);
+            }
+          } catch (error) {
+            console.error('Error updating book grid:', error);
+            grid.innerHTML = '<div class="error">Error loading books. Please try again.</div>';
+          }
+        }
+
+        // Initialize book grid when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+          updateBookGrid();
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('bookModal');
+        const closeModal = document.querySelector('.close-modal');
+        let currentBookId = null;
+
+        // Show modal with animation
+        function showModal() {
+          modal.style.display = 'block';
+          modal.offsetHeight; // Trigger reflow
+          modal.classList.add('show');
+        }
+
+        // Hide modal with animation
+        function hideModal() {
+          modal.classList.remove('show');
+          setTimeout(() => {
+            modal.style.display = 'none';
+            currentBookId = null;
+          }, 300);
+        }
+
+        // Handle keyboard navigation
+        function handleKeyDown(e) {
+          if (e.key === 'Escape') {
+            hideModal();
+          }
+        }
+
+        // Show book details with loading state
+        function showBookDetails(book, bookId) {
+          currentBookId = bookId;
+          const modalImage = document.getElementById('modalBookImage');
+          const bookDetails = document.querySelector('.book-details');
+          const loadingState = document.querySelector('.modal-loading');
+
+          // Show loading state
+          bookDetails.style.display = 'none';
+          loadingState.style.display = 'flex';
+
+          // Simulate loading delay
+          setTimeout(() => {
+            modalImage.src = book.image;
+            modalImage.dataset.bookId = bookId;
+            
+            document.getElementById('modalBookTitle').textContent = book.title;
+            document.getElementById('modalBookAuthor').textContent = `By ${book.author}`;
+            document.getElementById('modalBookPrice').textContent = book.price;
+            document.getElementById('modalBookDescription').textContent = book.description;
+            
+            // Set rating stars
+            const ratingContainer = document.getElementById('modalBookRating');
+            ratingContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+              const star = document.createElement('ion-icon');
+              star.name = i <= book.rating ? 'star' : 'star-outline';
+              ratingContainer.appendChild(star);
+            }
+            ratingContainer.appendChild(document.createTextNode(` (${book.rating})`));
+
+            // Set features
+            const featuresList = document.getElementById('modalBookFeatures');
+            featuresList.innerHTML = '';
+            book.features.forEach(feature => {
+              const li = document.createElement('li');
+              li.textContent = feature;
+              featuresList.appendChild(li);
+            });
+
+            // Update buy now button
+            const buyNowButton = document.getElementById('modalBuyNow');
+            buyNowButton.onclick = () => {
+              window.location.href = `payment.html?title=${encodeURIComponent(book.title)}&price=${encodeURIComponent(book.price)}`;
+            };
+
+            // Hide loading state and show content
+            loadingState.style.display = 'none';
+            bookDetails.style.display = 'grid';
+          }, 500);
+        }
+
+        // Event listeners
+        document.addEventListener('click', (e) => {
+          if (e.target.closest('.learn-more')) {
+            const bookId = e.target.closest('.learn-more').dataset.book;
+            const book = books[bookId];
+            showBookDetails(book, bookId);
+            showModal();
+            document.addEventListener('keydown', handleKeyDown);
+          } else if (e.target.closest('.buy-now')) {
+            const bookId = e.target.closest('.buy-now').dataset.book;
+            const book = books[bookId];
+            // Redirect to payment page with book details
+            window.location.href = `payment.html?title=${encodeURIComponent(book.title)}&price=${encodeURIComponent(book.price)}`;
+          } else if (e.target === closeModal || e.target === modal) {
+            hideModal();
+            document.removeEventListener('keydown', handleKeyDown);
+          }
+        });
+      </script>
+
+
+
+
+
+      <!-- 
+        - #AUTHOR
+      -->
+
+      <section class="section author" id="author" style="display: none;">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-subtitle">Our Authors</p>
+
+            <h2 class="h2 section-title has-underline">
+              Meet the Authors
+              <span class="span has-before"></span>
+            </h2>
+          </div>
+
+          <div class="pricing-grid">
+            <!-- J.K. Rowling Card -->
+            <div class="pricing-card">
+              <div class="book-cover">
+                <img src="a1.jpeg" alt="J.K. Rowling" class="w-100">
+              </div>
+              <div class="book-info">
+                <h3 class="h3 card-title">J.K. Rowling</h3>
+                <p class="author">Style: Fantasy, Fiction</p>
+                <div class="rating">
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <span>(5.0)</span>
+                </div>
+                <p class="price">Best-selling Author</p>
+                <button class="btn btn-primary view-profile" data-author="rowling">View Profile</button>
+              </div>
+            </div>
+
+            <!-- Jeff Kinney Card -->
+            <div class="pricing-card">
+              <div class="book-cover">
+                <img src="a2.jpeg" alt="Jeff Kinney" class="w-100">
+              </div>
+              <div class="book-info">
+                <h3 class="h3 card-title">Jeff Kinney</h3>
+                <p class="author">Style: Children's Literature, Humor</p>
+                <div class="rating">
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <ion-icon name="star"></ion-icon>
+                  <span>(5.0)</span>
+                </div>
+                <p class="price">Best-selling Author</p>
+                <button class="btn btn-primary view-profile" data-author="kinney">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Author Details Modal -->
+      <div class="modal" id="authorModal" role="dialog" aria-labelledby="modalAuthorTitle" aria-hidden="true">
+        <div class="modal-content">
+          <span class="close-author-modal" aria-label="Close">&times;</span>
+          <div class="modal-body">
+            <div class="modal-loading"></div>
+            <div class="author-details">
+              <div class="author-details-image">
+                <img id="modalAuthorImage" src="" alt="Author">
+              </div>
+              <div class="author-details-info">
+                <h2 id="modalAuthorTitle"></h2>
+                <p id="modalAuthorStyle"></p>
+                <div class="author-meta">
+                  <div class="rating" id="modalAuthorRating"></div>
+                  <p class="price" id="modalAuthorStatus"></p>
+                </div>
+                <div class="author-bio">
+                  <h3>Biography</h3>
+                  <p id="modalAuthorBio"></p>
+                </div>
+                <div class="author-achievements">
+                  <h3>Achievements</h3>
+                  <ul id="modalAuthorAchievements"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Author data
+        const authors = {
+          rowling: {
+            name: "J.K. Rowling",
+            style: "Fantasy, Fiction",
+            rating: 5.0,
+            status: "Best-selling Author",
+            image: "a1.jpeg",
+            bio: "J.K. Rowling is the author of the Harry Potter series, which has sold over 500 million copies worldwide. Born in 1965, she began writing the series in 1990 while working as a teacher. The books have been translated into 80 languages and adapted into a successful film franchise.",
+            achievements: [
+              "Best-selling book series in history",
+              "Multiple awards including the Order of the British Empire",
+              "Created a global phenomenon",
+              "Founded multiple charitable organizations"
+            ]
+          },
+          kinney: {
+            name: "Jeff Kinney",
+            style: "Children's Literature, Humor",
+            rating: 5.0,
+            status: "Best-selling Author",
+            image: "a2.jpeg",
+            bio: "Jeff Kinney is the creator of the Diary of a Wimpy Kid series, which has sold over 250 million copies worldwide. Born in 1971, he began working on the series in 1998. The books have been translated into 65 languages and adapted into multiple films.",
+            achievements: [
+              "Best-selling children's book series",
+              "Multiple New York Times bestsellers",
+              "Created an Animated Films franchise",
+              "Founded Poptropica online game"
+            ]
+          }
+        };
+
+        // Modal functionality
+        const authorModal = document.getElementById('authorModal');
+        const closeAuthorModal = document.querySelector('.close-author-modal');
+
+        // Show modal with animation
+        function showAuthorModal() {
+          authorModal.style.display = 'block';
+          authorModal.offsetHeight; // Trigger reflow
+          authorModal.classList.add('show');
+        }
+
+        // Hide modal with animation
+        function hideAuthorModal() {
+          authorModal.classList.remove('show');
+          setTimeout(() => {
+            authorModal.style.display = 'none';
+          }, 300);
+        }
+
+        // Show author details
+        function showAuthorDetails(authorId) {
+          const author = authors[authorId];
+          const modalImage = document.getElementById('modalAuthorImage');
+          const authorDetails = document.querySelector('.author-details');
+          const loadingState = document.querySelector('.modal-loading');
+
+          // Show loading state
+          authorDetails.style.display = 'none';
+          loadingState.style.display = 'flex';
+
+          // Simulate loading delay
+          setTimeout(() => {
+            modalImage.src = author.image;
+            
+            document.getElementById('modalAuthorTitle').textContent = author.name;
+            document.getElementById('modalAuthorStyle').textContent = `Style: ${author.style}`;
+            document.getElementById('modalAuthorStatus').textContent = author.status;
+            
+            // Set rating stars
+            const ratingContainer = document.getElementById('modalAuthorRating');
+            ratingContainer.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+              const star = document.createElement('ion-icon');
+              star.name = i <= author.rating ? 'star' : 'star-outline';
+              ratingContainer.appendChild(star);
+            }
+            ratingContainer.appendChild(document.createTextNode(` (${author.rating})`));
+
+            // Set bio
+            document.getElementById('modalAuthorBio').textContent = author.bio;
+
+            // Set achievements
+            const achievementsList = document.getElementById('modalAuthorAchievements');
+            achievementsList.innerHTML = '';
+            author.achievements.forEach(achievement => {
+              const li = document.createElement('li');
+              li.textContent = achievement;
+              achievementsList.appendChild(li);
+            });
+
+            // Hide loading state and show content
+            loadingState.style.display = 'none';
+            authorDetails.style.display = 'grid';
+          }, 500);
+        }
+
+        // Event listeners
+        document.addEventListener('click', (e) => {
+          if (e.target.closest('.view-profile')) {
+            const authorId = e.target.closest('.view-profile').dataset.author;
+            showAuthorDetails(authorId);
+            showAuthorModal();
+          } else if (e.target === closeAuthorModal || e.target === authorModal) {
+            hideAuthorModal();
+          }
+        });
+
+        // Handle keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && authorModal.style.display === 'block') {
+            hideAuthorModal();
+          }
+        });
+      </script>
+
+      <style>
+        .modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1000;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+          opacity: 1;
+        }
+
+        .modal-content {
+          position: relative;
+          background: #ffffff;
+          margin: 5% auto;
+          padding: 2rem;
+          width: 90%;
+          max-width: 1000px;
+          border-radius: 15px;
+          transform: translateY(-20px);
+          transition: transform 0.3s ease;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal.show .modal-content {
+          transform: translateY(0);
+        }
+
+        .close-author-modal {
+          position: absolute;
+          right: 1.5rem;
+          top: 1.5rem;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #333;
+        }
+
+        .author-details {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: 2rem;
+          margin-top: 1rem;
+        }
+
+        .author-details-image {
+          width: 100%;
+          height: 400px;
+          overflow: hidden;
+          border-radius: 10px;
+        }
+
+        .author-details-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .author-details-info {
+          padding: 1rem 0;
+        }
+
+        .author-details-info h2 {
+          font-size: 2rem;
+          color: #333;
+          margin-bottom: 0.5rem;
+        }
+
+        .author-details-info h3 {
+          font-size: 1.5rem;
+          color: #333;
+          margin: 1.5rem 0 1rem;
+        }
+
+        .author-bio p {
+          font-size: 1rem;
+          line-height: 1.6;
+          color: #333;
+          margin-bottom: 1.5rem;
+        }
+
+        .author-achievements ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .author-achievements li {
+          margin-bottom: 0.8rem;
+          padding-left: 1.5rem;
+          position: relative;
+          font-size: 1rem;
+          line-height: 1.5;
+          color: #333;
+        }
+
+        .author-achievements li:before {
+          content: "•";
+          color: var(--old-rose);
+          position: absolute;
+          left: 0;
+          font-weight: bold;
+        }
+
+        .modal-loading {
+          display: none;
+          justify-content: center;
+          align-items: center;
+          min-height: 200px;
+        }
+
+        @media (max-width: 768px) {
+          .author-details {
+            grid-template-columns: 1fr;
+          }
+
+          .author-details-image {
+            height: 300px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .modal-content {
+            width: 95%;
+            margin: 10% auto;
+            padding: 1.5rem;
+          }
+        }
+
+        .author-meta {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin: 1rem 0;
+        }
+
+        .author-meta .rating {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: #333;
+        }
+
+        .author-meta .price {
+          color: #333;
+          font-weight: 500;
+        }
+      </style>
+
+
+
+
+
+      <!-- 
+        - #CONTACT
+      -->
+
+      <section class="section contact" id="contact" style="display: none;">
+        <div class="container">
+
+          <p class="section-subtitle">Contact</p>
+
+          <h2 class="h2 section-title has-underline">
+            Write me anything
+            <span class="span has-before"></span>
+          </h2>
+
+          <div class="wrapper">
+
+            <form action="" class="contact-form">
+
+              <input type="text" name="name" placeholder="Your Name" required class="input-field">
+
+              <input type="email" name="email_address" placeholder="Your Email" required class="input-field">
+
+              <input type="text" name="subject" placeholder="Subject" required class="input-field">
+
+              <textarea name="message" placeholder="Your Message" class="input-field"></textarea>
+
+              <button type="submit" class="btn btn-primary">Send Now</button>
+
+            </form>
+
+            <ul class="contact-card">
+
+              <li>
+                <p class="card-title">Address:</p>
+
+                <address class="address">
+                  Amal Jyothi College of Engineering <br>
+                  Kanjirapally, Kottayam
+                </address>
+              </li>
+
+              <li>
+                <p class="card-title">Phone:</p>
+
+                <a href="tel:1234567890" class="card-link">123 456 7890</a>
+              </li>
+
+              <li>
+                <p class="card-title">Email:</p>
+
+                <a href="mailto:sharon@gmail.com" class="card-link">sharon@gmail.com</a>
+              </li>
+
+              <li>
+                <p class="social-list-title h3">Connect book socials</p>
+
+                <ul class="social-list">
+
+                  <li>
+                    <a href="https://www.facebook.com/bookishreads" target="_blank" class="social-link">
+                      <ion-icon name="logo-facebook"></ion-icon>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://twitter.com/bookishreads" target="_blank" class="social-link">
+                      <ion-icon name="logo-twitter"></ion-icon>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://www.linkedin.com/company/bookishreads" target="_blank" class="social-link">
+                      <ion-icon name="logo-linkedin"></ion-icon>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://www.youtube.com/c/bookishreads" target="_blank" class="social-link">
+                      <ion-icon name="logo-youtube"></ion-icon>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://wa.me/1234567890" target="_blank" class="social-link">
+                      <ion-icon name="logo-whatsapp"></ion-icon>
+                    </a>
+                  </li>
+
+                </ul>
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+    <div class="container">
+
+      <div class="footer-top">
+
+        <a href="#" class="logo">Bookish</a>
+
+        <ul class="footer-list">
+
+          <li>
+            <a href="#" class="footer-link">Home</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Benefits</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Chapters</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Pricing</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Author</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Reviews</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Contact</a>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">
+          &copy; 2025 All right reserved. Made with ❤ by Sharon.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+
+
+
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="script.js" defer></script>
+  <script src="js/sectionNavigation.js"></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  
+  <!-- Remove YouTube video script -->
+  <!-- Update the JavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Check if user is logged in
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const profileBtn = document.querySelector('.profile-btn');
+      const loginBtn = document.querySelector('.login-btn');
+      const profileButton = document.querySelector('.profile-button');
+      const dropdownMenu = document.querySelector('.profile-dropdown-menu');
+      const userName = document.querySelector('.user-name');
+      const navProfileImage = document.getElementById('navProfileImage');
+
+      if (currentUser) {
+        // User is logged in
+        profileBtn.style.display = 'block';
+        loginBtn.style.display = 'none';
+        
+        // Update user information
+        userName.textContent = currentUser.username;
+        
+        // Update profile image if exists
+        if (currentUser.profileImage) {
+          navProfileImage.src = currentUser.profileImage;
+        }
+      } else {
+        // User is not logged in
+        profileBtn.style.display = 'none';
+        loginBtn.style.display = 'block';
+      }
+
+      // Toggle dropdown menu
+      if (profileButton) {
+        profileButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dropdownMenu.classList.toggle('active');
+        });
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (dropdownMenu && !dropdownMenu.contains(e.target) && !profileButton.contains(e.target)) {
+          dropdownMenu.classList.remove('active');
+        }
+      });
+
+      // Prevent dropdown from closing when clicking inside
+      if (dropdownMenu) {
+        dropdownMenu.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      }
+
+      // Handle chapter navigation
+      const chaptersSection = document.getElementById('chapters');
+      if (chaptersSection) {
+        // Show chapters section by default
+        chaptersSection.style.display = 'block';
+        
+        // Handle chapter links
+        document.querySelectorAll('.chapter-card a').forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const chapterUrl = this.getAttribute('href');
+            window.location.href = chapterUrl;
+          });
+        });
+      }
+
+      // Handle navbar links
+      document.querySelectorAll('.navbar-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const sectionId = link.getAttribute('href').slice(1);
+          if (sectionId === 'chapters') {
+            e.preventDefault();
+            // Show chapters section
+            document.querySelectorAll('section').forEach(section => {
+              section.style.display = 'none';
+            });
+            chaptersSection.style.display = 'block';
+          }
+        });
+      });
+    });
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <style>
+    /* Section Display Styles */
+    section {
+      display: none;
+    }
+
+    section#chapters {
+      display: block;
+    }
+
+    /* Ensure proper scrolling for sections */
+    .section {
+      position: relative;
+      overflow-y: auto;
+      min-height: 100vh;
+    }
+
+    .chapter-cover {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .chapter-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .chapter-card:hover .chapter-cover img {
+      transform: scale(1.05);
+    }
+  </style>
+</body>
+
+</html>

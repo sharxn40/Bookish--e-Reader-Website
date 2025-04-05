@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Bookish</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #3498db;
+            --background-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --card-bg: #ffffff;
+            --old-rose: #e74c3c;
+            --old-rose-dark: #c0392b;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-container {
+            max-width: 600px;
+            width: 90%;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .payment-header {
+            margin-bottom: 2rem;
+        }
+
+        .payment-title {
+            font-family: 'Philosopher', serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .payment-subtitle {
+            color: var(--old-rose);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .book-details {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: var(--background-color);
+            border-radius: 10px;
+        }
+
+        .book-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-price {
+            font-size: 1.2rem;
+            color: var(--old-rose);
+            font-weight: 600;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid var(--old-rose);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            background-color: var(--old-rose);
+            color: white;
+        }
+
+        .payment-method img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .qr-container {
+            display: none;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #qrCode {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background-image: url('pay.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .upi-details {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .upi-id {
+            font-weight: 600;
+            color: var(--old-rose);
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--old-rose);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: var(--old-rose-dark);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1 class="payment-title">Complete Your Purchase</h1>
+            <p class="payment-subtitle">Choose your preferred payment method</p>
+        </div>
+
+        <div class="book-details">
+            <h2 class="book-title" id="bookTitle">Book Title</h2>
+            <p class="book-price" id="bookPrice">Price</p>
+        </div>
+
+        <div class="payment-methods">
+            <div class="payment-method" onclick="showQRCode()">
+                <img src="https://www.gstatic.com/instantbuy/svg/dark_gpay.svg" alt="Google Pay">
+                <span>Pay with Google Pay</span>
+            </div>
+        </div>
+
+        <div class="qr-container" id="qrContainer">
+            <div id="qrCode"></div>
+            <div class="upi-details">
+                <p>Scan QR code to pay</p>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-button">Back to Home</a>
+    </div>
+
+    <script>
+        // Get book details from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookTitle = urlParams.get('title');
+        const bookPrice = urlParams.get('price');
+
+        // Convert price to Indian Rupees (1 USD = 83 INR approximately)
+        function convertToINR(price) {
+            const usdPrice = parseFloat(price.replace(/[^0-9.]/g, ''));
+            const inrPrice = usdPrice * 83;
+            return `₹${inrPrice.toFixed(2)}`;
+        }
+
+        // Update book details
+        document.getElementById('bookTitle').textContent = bookTitle || 'Book Title';
+        document.getElementById('bookPrice').textContent = convertToINR(bookPrice) || '₹0.00';
+
+        // Generate QR code
+        function showQRCode() {
+            const upiId = 'shibusharon2013@okicici';
+            const amount = bookPrice ? (parseFloat(bookPrice.replace(/[^0-9.]/g, '')) * 83).toFixed(2) : '0';
+            const merchantName = 'Bookish';
+            const transactionNote = `Payment for ${bookTitle || 'book'}`;
+            
+            // Create UPI URL
+            const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(merchantName)}&am=${amount}&tn=${encodeURIComponent(transactionNote)}`;
+            
+            // Generate QR code
+            QRCode.toCanvas(document.getElementById('qrCode'), upiUrl, function (error) {
+                if (error) console.error(error);
+            });
+
+            // Show QR container
+            document.getElementById('qrContainer').style.display = 'block';
+        }
+    </script>
+</body>
+</html> 

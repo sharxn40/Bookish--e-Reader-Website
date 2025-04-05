@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Bookish</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container">
+      <a href="index.html" class="logo">Bookish</a>
+      <nav class="navbar" data-navbar>
+        <ul class="navbar-list">
+          <li class="navbar-item">
+            <a href="index.html" class="navbar-link">Home</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Profile Section -->
+  <section class="section profile-section">
+    <div class="container">
+      <div class="profile-wrapper">
+        <div class="profile-header">
+          <h2 class="h2 section-title">My Profile</h2>
+          <div class="profile-controls">
+            <button class="theme-toggle" id="themeToggle">
+              <ion-icon name="moon-outline"></ion-icon>
+            </button>
+            <button class="btn btn-secondary" id="generateAvatar">New Avatar</button>
+          </div>
+        </div>
+
+        <div class="profile-content">
+          <!-- Profile Photo Upload -->
+          <div class="profile-photo">
+            <div class="photo-container">
+              <img id="profileImage" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Profile Photo" class="profile-image">
+            </div>
+            <div class="photo-upload">
+              <label for="photoInput" class="upload-btn">
+                <ion-icon name="create-outline"></ion-icon>
+              </label>
+              <input type="file" id="photoInput" accept="image/*" style="display: none;">
+            </div>
+            <div id="uploadStatus" class="upload-status"></div>
+          </div>
+
+          <!-- Profile Information -->
+          <div class="profile-info">
+            <div class="info-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" class="input-field" placeholder="Enter your username">
+            </div>
+
+            <div class="info-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" class="input-field" placeholder="Enter your email">
+            </div>
+
+            <div class="info-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" class="input-field" placeholder="Enter your phone number">
+            </div>
+
+            <div class="info-group">
+              <label for="bio">Bio</label>
+              <textarea id="bio" class="input-field" placeholder="Tell us about yourself"></textarea>
+            </div>
+
+            <!-- Reading Goals Section -->
+            <div class="reading-goals">
+              <h3 class="section-subtitle">Reading Goals</h3>
+              <div class="goals-grid">
+                <div class="goal-card">
+                  <ion-icon name="flag-outline"></ion-icon>
+                  <h4>Monthly Goal</h4>
+                  <div class="goal-progress">
+                    <div class="progress-bar">
+                      <div class="progress" id="monthlyProgress" style="width: 0%"></div>
+                    </div>
+                    <span id="monthlyCount">0/5 books</span>
+                  </div>
+                </div>
+                <div class="goal-card">
+                  <ion-icon name="trophy-outline"></ion-icon>
+                  <h4>Yearly Goal</h4>
+                  <div class="goal-progress">
+                    <div class="progress-bar">
+                      <div class="progress" id="yearlyProgress" style="width: 0%"></div>
+                    </div>
+                    <span id="yearlyCount">0/50 books</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reading Streak -->
+            <div class="reading-streak">
+              <h3 class="section-subtitle">Reading Streak</h3>
+              <div class="streak-container">
+                <div class="streak-count">
+                  <ion-icon name="flame-outline"></ion-icon>
+                  <span id="streakDays">0</span>
+                  <p>Days</p>
+                </div>
+                <div class="streak-calendar" id="streakCalendar">
+                  <!-- Calendar will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Favorite Genres -->
+            <div class="favorite-genres">
+              <h3 class="section-subtitle">Favorite Genres</h3>
+              <div class="genres-grid" id="genresGrid">
+                <!-- Genres will be populated by JavaScript -->
+              </div>
+            </div>
+
+            <div class="profile-stats">
+              <div class="stat-item">
+                <ion-icon name="book-outline"></ion-icon>
+                <span id="booksRead">0</span>
+                <p>Books Read</p>
+              </div>
+              <div class="stat-item">
+                <ion-icon name="time-outline"></ion-icon>
+                <span id="readingTime">0h</span>
+                <p>Reading Time</p>
+              </div>
+              <div class="stat-item">
+                <ion-icon name="star-outline"></ion-icon>
+                <span id="favoriteBooks">0</span>
+                <p>Favorite Books</p>
+              </div>
+            </div>
+
+            <div class="profile-actions">
+              <button class="btn btn-primary" id="saveChanges">Save Changes</button>
+              <button class="btn btn-secondary" id="resetStats">Reset Stats</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="copyright">
+          &copy; 2025 All right reserved. Made with ❤ by Sharon.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Ion Icons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Profile Page Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Get all users from localStorage
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const userIndex = users.findIndex(u => u.username === currentUser.username);
+      
+      // Load user data
+      if (userIndex !== -1) {
+        const userData = users[userIndex];
+        document.getElementById('username').value = userData.username || '';
+        document.getElementById('email').value = userData.email || '';
+        document.getElementById('phone').value = userData.phone || '';
+        document.getElementById('bio').value = userData.bio || '';
+        
+        // Load profile image if exists
+        const profileImage = document.getElementById('profileImage');
+        if (userData.profileImage) {
+          profileImage.src = userData.profileImage;
+        }
+      }
+
+      // Handle photo upload
+      document.getElementById('photoInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          if (file.size > 5 * 1024 * 1024) {
+            showUploadStatus('File size should be less than 5MB', 'error');
+            return;
+          }
+          
+          if (!file.type.startsWith('image/')) {
+            showUploadStatus('Please upload an image file', 'error');
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const profileImage = document.getElementById('profileImage');
+            profileImage.src = e.target.result;
+            
+            // Update user data in users array
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(u => u.username === currentUser.username);
+            if (userIndex !== -1) {
+              users[userIndex].profileImage = e.target.result;
+              localStorage.setItem('users', JSON.stringify(users));
+              
+              // Update currentUser with new profile image
+              currentUser.profileImage = e.target.result;
+              localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+            
+            showUploadStatus('Profile photo updated successfully', 'success');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Handle save changes
+      document.getElementById('saveChanges').addEventListener('click', function() {
+        const updatedUser = {
+          ...currentUser,
+          username: document.getElementById('username').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          bio: document.getElementById('bio').value
+        };
+
+        // Update user in users array
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+        if (userIndex !== -1) {
+          users[userIndex] = updatedUser;
+          localStorage.setItem('users', JSON.stringify(users));
+          
+          // Update currentUser with new information
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        }
+
+        // Add random stats
+        const stats = {
+          booksRead: parseInt(localStorage.getItem('booksRead')) || 0,
+          readingTime: parseInt(localStorage.getItem('readingTime')) || 0,
+          favoriteBooks: parseInt(localStorage.getItem('favoriteBooks')) || 0
+        };
+        stats.booksRead += Math.floor(Math.random() * 3);
+        stats.readingTime += Math.floor(Math.random() * 5);
+        stats.favoriteBooks += Math.floor(Math.random() * 2);
+        
+        localStorage.setItem('booksRead', stats.booksRead.toString());
+        localStorage.setItem('readingTime', stats.readingTime.toString());
+        localStorage.setItem('favoriteBooks', stats.favoriteBooks.toString());
+        
+        updateStats();
+        alert('Profile updated successfully!');
+
+        // Add random progress
+        const goals = {
+          monthly: { current: 0, target: 5 },
+          yearly: { current: 0, target: 50 }
+        };
+        goals.monthly.current += Math.floor(Math.random() * 2);
+        goals.yearly.current += Math.floor(Math.random() * 3);
+        const streakDays = parseInt(localStorage.getItem('streakDays')) || 0;
+        localStorage.setItem('streakDays', (streakDays + Math.floor(Math.random() * 2)).toString());
+        
+        genres.forEach(genre => {
+          genre.count += Math.floor(Math.random() * 2);
+        });
+        
+        achievements.forEach(achievement => {
+          achievement.current += Math.floor(Math.random() * 2);
+        });
+
+        updateGoals();
+        updateStreak();
+        updateGenres();
+        updateAchievements();
+      });
+
+      function showUploadStatus(message, type) {
+        const status = document.getElementById('uploadStatus');
+        status.textContent = message;
+        status.style.color = type === 'success' ? 'green' : 'red';
+        setTimeout(() => {
+          status.textContent = '';
+        }, 3000);
+      }
+
+      // Theme Toggle
+      const themeToggle = document.getElementById('themeToggle');
+      const icon = themeToggle.querySelector('ion-icon');
+      
+      // Check for saved theme preference
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.body.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+
+      function updateThemeIcon(theme) {
+        icon.name = theme === 'light' ? 'moon-outline' : 'sunny-outline';
+      }
+
+      // Generate New Avatar
+      const generateAvatarBtn = document.getElementById('generateAvatar');
+      generateAvatarBtn.addEventListener('click', () => {
+        const randomSeed = Math.random().toString(36).substring(7);
+        const profileImage = document.getElementById('profileImage');
+        profileImage.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${randomSeed}`;
+        
+        // Save the new avatar
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+        if (userIndex !== -1) {
+          users[userIndex].profileImage = profileImage.src;
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+      });
+
+      // Profile Stats
+      const stats = {
+        booksRead: parseInt(localStorage.getItem('booksRead')) || 0,
+        readingTime: parseInt(localStorage.getItem('readingTime')) || 0,
+        favoriteBooks: parseInt(localStorage.getItem('favoriteBooks')) || 0
+      };
+
+      function updateStats() {
+        document.getElementById('booksRead').textContent = stats.booksRead;
+        document.getElementById('readingTime').textContent = `${stats.readingTime}h`;
+        document.getElementById('favoriteBooks').textContent = stats.favoriteBooks;
+      }
+
+      // Reset Stats
+      document.getElementById('resetStats').addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset your reading stats?')) {
+          stats.booksRead = 0;
+          stats.readingTime = 0;
+          stats.favoriteBooks = 0;
+          localStorage.setItem('booksRead', '0');
+          localStorage.setItem('readingTime', '0');
+          localStorage.setItem('favoriteBooks', '0');
+          updateStats();
+        }
+      });
+
+      // Reading Goals
+      const goals = {
+        monthly: { current: 0, target: 5 },
+        yearly: { current: 0, target: 50 }
+      };
+
+      function updateGoals() {
+        const monthlyProgress = document.getElementById('monthlyProgress');
+        const yearlyProgress = document.getElementById('yearlyProgress');
+        const monthlyCount = document.getElementById('monthlyCount');
+        const yearlyCount = document.getElementById('yearlyCount');
+
+        monthlyProgress.style.width = `${(goals.monthly.current / goals.monthly.target) * 100}%`;
+        yearlyProgress.style.width = `${(goals.yearly.current / goals.yearly.target) * 100}%`;
+        monthlyCount.textContent = `${goals.monthly.current}/${goals.monthly.target} books`;
+        yearlyCount.textContent = `${goals.yearly.current}/${goals.yearly.target} books`;
+      }
+
+      // Reading Streak
+      let streakDays = 0;
+      const streakCalendar = document.getElementById('streakCalendar');
+
+      function updateStreak() {
+        const streakDaysElement = document.getElementById('streakDays');
+        streakDaysElement.textContent = streakDays;
+        
+        // Generate calendar
+        streakCalendar.innerHTML = '';
+        for (let i = 0; i < 30; i++) {
+          const day = document.createElement('div');
+          day.className = `streak-day ${i < streakDays ? 'active' : ''}`;
+          streakCalendar.appendChild(day);
+        }
+      }
+
+      // Favorite Genres
+      const genres = [
+        { name: 'Fiction', count: 0 },
+        { name: 'Non-Fiction', count: 0 },
+        { name: 'Mystery', count: 0 },
+        { name: 'Science Fiction', count: 0 },
+        { name: 'Romance', count: 0 },
+        { name: 'Fantasy', count: 0 }
+      ];
+
+      function updateGenres() {
+        const genresGrid = document.getElementById('genresGrid');
+        genresGrid.innerHTML = '';
+        
+        genres.forEach(genre => {
+          const genreCard = document.createElement('div');
+          genreCard.className = 'genre-card';
+          genreCard.innerHTML = `
+            <h4>${genre.name}</h4>
+            <div class="genre-progress">
+              <div class="progress-bar">
+                <div class="progress" style="width: ${(genre.count / 10) * 100}%"></div>
+              </div>
+              <span>${genre.count}/10 books</span>
+            </div>
+          `;
+          genresGrid.appendChild(genreCard);
+        });
+      }
+
+      // Achievements
+      const achievements = [
+        { name: 'Bookworm', icon: 'book', requirement: 10, current: 0 },
+        { name: 'Speed Reader', icon: 'flash', requirement: 5, current: 0 },
+        { name: 'Night Owl', icon: 'moon', requirement: 3, current: 0 },
+        { name: 'Early Bird', icon: 'sunny', requirement: 3, current: 0 },
+        { name: 'Social Reader', icon: 'people', requirement: 5, current: 0 },
+        { name: 'Genre Explorer', icon: 'compass', requirement: 5, current: 0 }
+      ];
+
+      function updateAchievements() {
+        const achievementsGrid = document.getElementById('achievementsGrid');
+        achievementsGrid.innerHTML = '';
+        
+        achievements.forEach(achievement => {
+          const achievementCard = document.createElement('div');
+          achievementCard.className = `achievement-card ${achievement.current >= achievement.requirement ? 'unlocked' : ''}`;
+          achievementCard.innerHTML = `
+            <ion-icon name="${achievement.icon}-outline"></ion-icon>
+            <h4>${achievement.name}</h4>
+            <p>${achievement.current}/${achievement.requirement}</p>
+          `;
+          achievementsGrid.appendChild(achievementCard);
+        });
+      }
+
+      // Initialize all features
+      function initializeFeatures() {
+        updateGoals();
+        updateStreak();
+        updateGenres();
+        updateAchievements();
+      }
+
+      // Initialize features when page loads
+      initializeFeatures();
+    });
+  </script>
+</body>
+</html> 

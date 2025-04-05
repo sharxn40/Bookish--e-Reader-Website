@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Bookish - Login</title>
+  <meta name="title" content="Bookish - Login">
+  <meta name="description" content="Log in to access your Bookish account and unlock the power of reading.">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Custom CSS Link (Reuse existing style.css) -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Font Link -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Ionicon Link -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <style>
+    /* Welcome Section Styles */
+    .welcome-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--seashell);
+      padding: var(--section-padding);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1000px;
+      padding: 40px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-10);
+      box-shadow: var(--shadow-1);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .welcome-text {
+      flex: 1;
+      text-align: left;
+    }
+
+    .welcome-image {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-10);
+      box-shadow: var(--shadow-1);
+    }
+
+    .welcome-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease-out;
+    }
+
+    .welcome-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .welcome-image::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(230, 126, 126, 0.1), rgba(230, 126, 126, 0));
+      pointer-events: none;
+    }
+
+    .welcome-title {
+      color: var(--charcoal);
+      font-family: 'Philosopher', serif;
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .welcome-subtitle {
+      color: var(--chinese-violet);
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease-out;
+      line-height: 1.6;
+    }
+
+    .welcome-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: flex-start;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .welcome-btn {
+      padding: 15px 40px;
+      border-radius: var(--radius-5);
+      font-weight: var(--fw-500);
+      transition: var(--transition-1);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 1.1rem;
+      position: relative;
+      overflow: hidden;
+      background-color: var(--old-rose);
+      color: var(--white);
+      border: 2px solid var(--old-rose);
+    }
+
+    .welcome-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease-out, height 0.6s ease-out;
+    }
+
+    .welcome-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .welcome-btn:hover {
+      background-color: transparent;
+      color: var(--old-rose);
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Hide login section initially */
+    .login-section {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .login-section.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Additional styles specific to the login page */
+    .login-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--seashell);
+      padding: var(--section-padding);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Particle Animation Styles */
+    #particles-js {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .login-container {
+      background-color: var(--white);
+      padding: 40px;
+      border-radius: var(--radius-10);
+      box-shadow: var(--shadow-1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .login-title {
+      color: var(--charcoal);
+      margin-block-end: 20px;
+    }
+
+    .login-form .input-field {
+      margin-block-end: 20px;
+      padding: 12px;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-5);
+      transition: border-color var(--transition-1);
+      background-color: hsl(0, 0%, 91%);
+    }
+
+    .login-form .input-field:focus {
+      border-color: var(--old-rose);
+    }
+
+    .login-form .input-field.error {
+      border-color: hsl(357, 37%, 50%);
+    }
+
+    .error-message {
+      color: hsl(357, 37%, 50%);
+      font-size: var(--fs-7);
+      margin-block-end: 15px;
+      display: none;
+    }
+
+    .login-form .btn-primary {
+      width: 100%;
+      margin-block-start: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-form .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease-out, height 0.6s ease-out;
+    }
+
+    .login-form .btn-primary:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .login-link {
+      margin-block-start: 15px;
+      color: var(--old-rose);
+      font-weight: var(--fw-500);
+      transition: var(--transition-1);
+    }
+
+    .login-link:hover {
+      color: var(--chinese-violet);
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-block-end: 20px;
+      text-align: left;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .remember-me label {
+      color: var(--charcoal);
+      font-size: var(--fs-7);
+      cursor: pointer;
+    }
+
+    /* Mouse Trail Effect */
+    .mouse-trail {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: var(--old-rose);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+      transition: transform 0.1s ease;
+      mix-blend-mode: multiply;
+    }
+
+    .mouse-trail::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Animation Container -->
+  <div id="particles-js"></div>
+
+  <!-- Mouse Trail Elements -->
+  <div class="mouse-trail" id="mouseTrail"></div>
+
+  <!-- Welcome Section -->
+  <section class="welcome-section" id="welcome-section">
+    <div class="welcome-content">
+      <div class="welcome-text">
+        <h1 class="welcome-title">Welcome to Bookish</h1>
+        <p class="welcome-subtitle">Your Gateway to Literary Adventures</p>
+        <div class="welcome-buttons">
+          <button class="welcome-btn" id="show-login">Log In</button>
+          <a href="signup.html" class="welcome-btn">Sign Up</a>
+        </div>
+      </div>
+      <div class="welcome-image">
+        <img src="10.jpg" alt="Bookish Welcome Image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Login Section -->
+  <section class="section login-section" id="login-section">
+    <div class="login-container">
+      <h1 class="h1 login-title">Login to Bookish</h1>
+      <form class="login-form" id="login-form">
+        <input type="text" name="username" placeholder="Username" class="input-field" required>
+        <input type="password" name="password" placeholder="Password" class="input-field" required>
+        <div class="remember-me">
+          <input type="checkbox" id="remember-me" name="remember-me">
+          <label for="remember-me">Remember me</label>
+        </div>
+        <p class="error-message" id="error-message">Invalid username or password</p>
+        <button type="submit" class="btn btn-primary">Log In</button>
+      </form>
+      <p>Don't have an account? <a href="signup.html" class="login-link">Sign up here</a></p>
+    </div>
+  </section>
+
+  <!-- Particle.js Library -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+  <!-- Custom JavaScript for Interactivity -->
+  <script>
+    // Initialize particles.js with improved configuration
+    particlesJS('particles-js', {
+      particles: {
+        number: {
+          value: 100,
+          density: {
+            enable: true,
+            value_area: 800
+          }
+        },
+        color: {
+          value: '#e67e7e'
+        },
+        shape: {
+          type: 'circle'
+        },
+        opacity: {
+          value: 0.6,
+          random: true,
+          animation: {
+            enable: true,
+            speed: 1,
+            opacity_min: 0.1,
+            sync: false
+          }
+        },
+        size: {
+          value: 4,
+          random: true,
+          animation: {
+            enable: true,
+            speed: 2,
+            size_min: 0.1,
+            sync: false
+          }
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#e67e7e',
+          opacity: 0.3,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 3,
+          direction: 'none',
+          random: true,
+          straight: false,
+          out_mode: 'out',
+          bounce: true,
+          attract: {
+            enable: true,
+            rotateX: 600,
+            rotateY: 1200
+          }
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: {
+            enable: true,
+            mode: 'grab'
+          },
+          onclick: {
+            enable: true,
+            mode: 'push'
+          },
+          resize: true
+        },
+        modes: {
+          grab: {
+            distance: 140,
+            line_linked: {
+              opacity: 0.5
+            }
+          },
+          push: {
+            particles_nb: 4
+          }
+        }
+      },
+      retina_detect: true
+    });
+
+    // Mouse Trail Effect
+    const mouseTrail = document.getElementById('mouseTrail');
+    let mouseX = 0;
+    let mouseY = 0;
+    let trailX = 0;
+    let trailY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      // Smooth trail movement
+      trailX += (mouseX - trailX) * 0.1;
+      trailY += (mouseY - trailY) * 0.1;
+
+      mouseTrail.style.transform = `translate(${trailX - 10}px, ${trailY - 10}px)`;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Welcome to Login Transition
+    document.addEventListener("DOMContentLoaded", function () {
+      const welcomeSection = document.getElementById("welcome-section");
+      const loginSection = document.getElementById("login-section");
+      const showLoginBtn = document.getElementById("show-login");
+
+      showLoginBtn.addEventListener("click", function() {
+        welcomeSection.style.opacity = "0";
+        setTimeout(() => {
+          welcomeSection.style.display = "none";
+          loginSection.classList.add("active");
+        }, 500);
+      });
+
+      // Existing login form handling code
+      const form = document.getElementById("login-form");
+      const errorMessage = document.getElementById("error-message");
+      const usernameInput = form.querySelector('input[name="username"]');
+      const passwordInput = form.querySelector('input[name="password"]');
+      const rememberMeCheckbox = form.querySelector('#remember-me');
+
+      // Check if there are saved credentials
+      const savedUsername = localStorage.getItem('savedUsername');
+      const savedPassword = localStorage.getItem('savedPassword');
+      
+      if (savedUsername && savedPassword) {
+        usernameInput.value = savedUsername;
+        passwordInput.value = savedPassword;
+        rememberMeCheckbox.checked = true;
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Get form values
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        // Reset error states
+        errorMessage.style.display = "none";
+        usernameInput.classList.remove("error");
+        passwordInput.classList.remove("error");
+
+        // Validation checks
+        if (username === "" || password === "") {
+          errorMessage.textContent = "Please fill in all fields";
+          errorMessage.style.display = "block";
+          if (username === "") usernameInput.classList.add("error");
+          if (password === "") passwordInput.classList.add("error");
+          return;
+        }
+
+        // Get users from localStorage
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        
+        // Check if user exists and password matches
+        const user = users.find(u => u.username === username && u.password === password);
+        
+        if (user) {
+          // Handle remember me
+          if (rememberMeCheckbox.checked) {
+            localStorage.setItem('savedUsername', username);
+            localStorage.setItem('savedPassword', password);
+          } else {
+            localStorage.removeItem('savedUsername');
+            localStorage.removeItem('savedPassword');
+          }
+
+          // Store complete user data in currentUser
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          // Redirect to home page
+          window.location.href = "index.html";
+        } else {
+          errorMessage.textContent = "Invalid username or password";
+          errorMessage.style.display = "block";
+          usernameInput.classList.add("error");
+          passwordInput.classList.add("error");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>Bookish - Sign Up</title>
+  <meta name="title" content="Bookish - Sign Up">
+  <meta name="description" content="Create your Bookish account and start your reading journey.">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
+
+  <!-- Custom CSS Link -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Google Font Link -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Ionicon Link -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <style>
+    /* Additional styles specific to the signup page */
+    .signup-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--seashell);
+      padding: var(--section-padding);
+    }
+
+    .signup-container {
+      background-color: var(--white);
+      padding: 40px;
+      border-radius: var(--radius-10);
+      box-shadow: var(--shadow-1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .signup-title {
+      color: var(--charcoal);
+      margin-block-end: 20px;
+    }
+
+    .signup-form .input-field {
+      margin-block-end: 20px;
+      padding: 12px;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius-5);
+      transition: border-color var(--transition-1);
+    }
+
+    .signup-form .input-field:focus {
+      border-color: var(--old-rose);
+    }
+
+    .signup-form .input-field.error {
+      border-color: hsl(357, 37%, 50%);
+    }
+
+    .error-message {
+      color: hsl(357, 37%, 50%);
+      font-size: var(--fs-7);
+      margin-block-end: 15px;
+      display: none;
+    }
+
+    .signup-form .btn-primary {
+      width: 100%;
+      margin-block-start: 20px;
+    }
+
+    .login-link {
+      margin-block-start: 15px;
+      color: var(--old-rose);
+      font-weight: var(--fw-500);
+      transition: var(--transition-1);
+    }
+
+    .login-link:hover {
+      color: var(--chinese-violet);
+    }
+  </style>
+</head>
+<body>
+  <!-- Signup Section -->
+  <section class="section signup-section">
+    <div class="signup-container">
+      <h1 class="h1 signup-title">Create Account</h1>
+      <form class="signup-form" id="signup-form">
+        <input type="text" name="username" placeholder="Username" class="input-field" required>
+        <input type="email" name="email" placeholder="Email" class="input-field" required>
+        <input type="password" name="password" placeholder="Password" class="input-field" required>
+        <input type="password" name="confirm-password" placeholder="Confirm Password" class="input-field" required>
+        <p class="error-message" id="error-message"></p>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </form>
+      <p>Already have an account? <a href="login.html" class="login-link">Login here</a></p>
+    </div>
+  </section>
+
+  <!-- Custom JavaScript for Interactivity -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("signup-form");
+      const errorMessage = document.getElementById("error-message");
+      const inputs = form.querySelectorAll('.input-field');
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Get form values
+        const username = form.querySelector('input[name="username"]').value.trim();
+        const email = form.querySelector('input[name="email"]').value.trim();
+        const password = form.querySelector('input[name="password"]').value.trim();
+        const confirmPassword = form.querySelector('input[name="confirm-password"]').value.trim();
+
+        // Reset error states
+        errorMessage.style.display = "none";
+        inputs.forEach(input => input.classList.remove("error"));
+
+        // Validation checks
+        if (username === "" || email === "" || password === "" || confirmPassword === "") {
+          errorMessage.textContent = "Please fill in all fields";
+          errorMessage.style.display = "block";
+          inputs.forEach(input => {
+            if (input.value.trim() === "") input.classList.add("error");
+          });
+          return;
+        }
+
+        if (username.length < 3) {
+          errorMessage.textContent = "Username must be at least 3 characters long";
+          errorMessage.style.display = "block";
+          form.querySelector('input[name="username"]').classList.add("error");
+          return;
+        }
+
+        if (password.length < 6) {
+          errorMessage.textContent = "Password must be at least 6 characters long";
+          errorMessage.style.display = "block";
+          form.querySelector('input[name="password"]').classList.add("error");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          errorMessage.textContent = "Passwords do not match";
+          errorMessage.style.display = "block";
+          form.querySelector('input[name="password"]').classList.add("error");
+          form.querySelector('input[name="confirm-password"]').classList.add("error");
+          return;
+        }
+
+        // Check if username already exists
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.some(user => user.username === username)) {
+          errorMessage.textContent = "Username already exists";
+          errorMessage.style.display = "block";
+          form.querySelector('input[name="username"]').classList.add("error");
+          return;
+        }
+
+        // Save user to localStorage
+        users.push({ username, email, password });
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // Redirect to login page
+        window.location.href = "login.html";
+      });
+    });
+  </script>
+</body>
+</html> 

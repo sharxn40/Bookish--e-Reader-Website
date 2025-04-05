@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Edit Profile - Bookish</title>
+  <meta name="title" content="Edit Profile - Bookish">
+  <meta name="description" content="Update your profile information">
+
+  <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header" data-header>
+    <div class="container">
+      <a href="index.html" class="logo">Bookish</a>
+      <button class="nav-toggle-btn" aria-label="toggle menu" data-nav-toggler>
+        <ion-icon name="menu-outline" aria-hidden="true" class="open"></ion-icon>
+        <ion-icon name="close-outline" aria-hidden="true" class="close"></ion-icon>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section edit-profile-section">
+      <div class="container">
+        <div class="edit-profile-wrapper">
+          <h2 class="h2 section-title">Edit Profile</h2>
+          
+          <div class="profile-header">
+            <div class="avatar-container">
+              <span class="user-avatar-large">
+                <ion-icon name="person-circle-outline"></ion-icon>
+              </span>
+              <button class="btn btn-secondary change-avatar">Change Avatar</button>
+            </div>
+            <h3 class="user-name-large">User Name</h3>
+          </div>
+
+          <form class="edit-profile-form">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+              <label for="current-password">Current Password</label>
+              <input type="password" id="current-password" name="current-password">
+            </div>
+
+            <div class="form-group">
+              <label for="new-password">New Password</label>
+              <input type="password" id="new-password" name="new-password">
+            </div>
+
+            <div class="form-group">
+              <label for="confirm-password">Confirm New Password</label>
+              <input type="password" id="confirm-password" name="confirm-password">
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <a href="index.html" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="copyright">
+          &copy; 2022 All right reserved. Made with ❤ by Sharon.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Check if user is logged in
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const userNameLarge = document.querySelector('.user-name-large');
+      const usernameInput = document.getElementById('username');
+      const emailInput = document.getElementById('email');
+      const editProfileForm = document.querySelector('.edit-profile-form');
+
+      if (currentUser) {
+        userNameLarge.textContent = currentUser.username;
+        usernameInput.value = currentUser.username;
+        emailInput.value = currentUser.email || '';
+      } else {
+        window.location.href = 'login.html';
+      }
+
+      // Handle form submission
+      editProfileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const newUsername = usernameInput.value;
+        const newEmail = emailInput.value;
+        const currentPassword = document.getElementById('current-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        // Update user information
+        currentUser.username = newUsername;
+        currentUser.email = newEmail;
+
+        // Update password if provided
+        if (newPassword && newPassword === confirmPassword) {
+          currentUser.password = newPassword;
+        }
+
+        // Save updated user data
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Redirect back to home page
+        window.location.href = 'index.html';
+      });
+    });
+  </script>
+</body>
+
+</html> 
